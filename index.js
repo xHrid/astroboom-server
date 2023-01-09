@@ -61,6 +61,10 @@ const User = require("./src/api/user/model/User");
 
 app.use("/api/user", userRoutes);
 
+app.use(function(req, res, next) {
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+})
+
 const rooms = {}
 const openRooms = []
 const activePlayers = {}
@@ -277,9 +281,6 @@ io.on("connection", socket=> {
 
 })
 
-app.use(function(req, res, next) {
-    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
-})
 
 // Listen to server
 server.listen(PORT, ()=> {
