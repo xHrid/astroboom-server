@@ -59,7 +59,7 @@ const userRoutes = require("./src/api/user/route/user");
 const { p2Details } = require("./emitNames");
 const User = require("./src/api/user/model/User");
 
-app.use("/abi/user", userRoutes);
+app.use("/api/user", userRoutes);
 
 const rooms = {}
 const openRooms = []
