@@ -70,216 +70,216 @@ const openRooms = []
 const activePlayers = {}
 
 // Socket Management
-// io.on("connection", socket=> {
+io.on("connection", socket=> {
 
-//     let localLobbyCode = null;
-//     let localPName = null;
-//     let localPEmail = null;
+    let localLobbyCode = null;
+    let localPName = null;
+    let localPEmail = null;
 
-//     const p1Data = [
-//         {i : 0, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//         {i : 0, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//         {i : 1, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//         {i : 1, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//         {i : 2, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//         {i : 2, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
-//     ]
+    const p1Data = [
+        {i : 0, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+        {i : 0, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+        {i : 1, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+        {i : 1, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+        {i : 2, j : 0, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+        {i : 2, j : 1, x: 0, y: 0, w: 0, h: 0, status: blockStates.normal, destroyed: false, adj: [] },
+    ]
     
-//     socket.on(emitName.handshake, (pName, lobbyCode, mode, pEmail)=>{
+    socket.on(emitName.handshake, (pName, lobbyCode, mode, pEmail)=>{
         
-//         localPName = pName;
-//         localPEmail = pEmail
+        localPName = pName;
+        localPEmail = pEmail
 
-//         if (activePlayers.hasOwnProperty(pEmail)) {
-//             console.log("Already Connected!");
-//         } else {
-//             console.log("New Connection for lobby: ", lobbyCode, "mode : ", mode);
-//             if (lobbyCode == "") {
-//                 if (openRooms.length == 0) {
-//                     lobbyCode = generateString();
-//                     openRooms.push(lobbyCode);
-//                     rooms[lobbyCode] = [];
-//                     rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
-//                     socket.join(lobbyCode);
-//                     localLobbyCode = lobbyCode;
-//                     activePlayers[pEmail] = lobbyCode;
-//                     console.log("p1 connected ", activePlayers, pName);
+        if (activePlayers.hasOwnProperty(pEmail)) {
+            console.log("Already Connected!");
+        } else {
+            console.log("New Connection for lobby: ", lobbyCode, "mode : ", mode);
+            if (lobbyCode == "") {
+                if (openRooms.length == 0) {
+                    lobbyCode = generateString();
+                    openRooms.push(lobbyCode);
+                    rooms[lobbyCode] = [];
+                    rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
+                    socket.join(lobbyCode);
+                    localLobbyCode = lobbyCode;
+                    activePlayers[pEmail] = lobbyCode;
+                    console.log("p1 connected ", activePlayers, pName);
 
-//                 } else {
-//                     setTimeout(()=>{
-//                         if (openRooms.length == 0) {
-//                             lobbyCode = generateString();
-//                             openRooms.push(lobbyCode);
-//                             rooms[lobbyCode] = [];
-//                             rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
-//                             socket.join(lobbyCode);
-//                             localLobbyCode = lobbyCode
-//                             activePlayers[pEmail] = lobbyCode;
-//                         } else {
-//                             const i = Math.random() * openRooms.length;
-//                             lobbyCode = openRooms.splice(i, 1)[0];
-//                             socket.join(lobbyCode);
-//                             activePlayers[pEmail] = lobbyCode;
-//                             localLobbyCode = lobbyCode
-//                             console.log("P2 Connected", activePlayers, pName, localPName);
-//                             rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
+                } else {
+                    setTimeout(()=>{
+                        if (openRooms.length == 0) {
+                            lobbyCode = generateString();
+                            openRooms.push(lobbyCode);
+                            rooms[lobbyCode] = [];
+                            rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
+                            socket.join(lobbyCode);
+                            localLobbyCode = lobbyCode
+                            activePlayers[pEmail] = lobbyCode;
+                        } else {
+                            const i = Math.random() * openRooms.length;
+                            lobbyCode = openRooms.splice(i, 1)[0];
+                            socket.join(lobbyCode);
+                            activePlayers[pEmail] = lobbyCode;
+                            localLobbyCode = lobbyCode
+                            console.log("P2 Connected", activePlayers, pName, localPName);
+                            rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
 
-//                             const p1Turn = Math.random() < 0.5;
+                            const p1Turn = Math.random() < 0.5;
 
-//                             const p1Position = Math.floor(Math.random()*6);
-//                             const p2Position = Math.floor(Math.random()*6);
+                            const p1Position = Math.floor(Math.random()*6);
+                            const p2Position = Math.floor(Math.random()*6);
 
-//                             rooms[lobbyCode][0].hasTurn = p1Turn;
-//                             rooms[lobbyCode][1].hasTurn = !p1Data;
+                            rooms[lobbyCode][0].hasTurn = p1Turn;
+                            rooms[lobbyCode][1].hasTurn = !p1Data;
 
-//                             rooms[lobbyCode][0].position = {
-//                                 i: Math.floor(p1Position/2),
-//                                 j: p1Position%2
-//                             };
-//                             rooms[lobbyCode][1].position = {
-//                                 i: Math.floor(p2Position/2),
-//                                 j: p2Position%2 
-//                             };
+                            rooms[lobbyCode][0].position = {
+                                i: Math.floor(p1Position/2),
+                                j: p1Position%2
+                            };
+                            rooms[lobbyCode][1].position = {
+                                i: Math.floor(p2Position/2),
+                                j: p2Position%2 
+                            };
 
-//                             rooms[lobbyCode][0].socket.emit(p2Details, {p2: pName, p1Data, p2Data: rooms[lobbyCode][0].p1Data, yourTurn: p1Turn, position: {
-//                                 i: Math.floor(p1Position/2),
-//                                 j: p1Position%2
-//                             }})
-//                             socket.emit(p2Details, {p2: rooms[lobbyCode][0].name, p1Data: rooms[lobbyCode][0].p1Data, p2Data: p1Data, yourTurn: !p1Turn, position: {
-//                                 i: Math.floor(p2Position/2),
-//                                 j: p2Position%2 
-//                             }})
-//                         }
-//                     }, 0)
-//                 }
-//             }else if (mode == 'j'){
-//                 if ( rooms.hasOwnProperty(lobbyCode) && rooms[lobbyCode].length < 2) {
-//                     socket.join(lobbyCode);
-//                     activePlayers[pEmail] = lobbyCode;
-//                     localLobbyCode = lobbyCode
-//                     console.log("P2 Connected", activePlayers, pName, localPName);
-//                     rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
+                            rooms[lobbyCode][0].socket.emit(p2Details, {p2: pName, p1Data, p2Data: rooms[lobbyCode][0].p1Data, yourTurn: p1Turn, position: {
+                                i: Math.floor(p1Position/2),
+                                j: p1Position%2
+                            }})
+                            socket.emit(p2Details, {p2: rooms[lobbyCode][0].name, p1Data: rooms[lobbyCode][0].p1Data, p2Data: p1Data, yourTurn: !p1Turn, position: {
+                                i: Math.floor(p2Position/2),
+                                j: p2Position%2 
+                            }})
+                        }
+                    }, 0)
+                }
+            }else if (mode == 'j'){
+                if ( rooms.hasOwnProperty(lobbyCode) && rooms[lobbyCode].length < 2) {
+                    socket.join(lobbyCode);
+                    activePlayers[pEmail] = lobbyCode;
+                    localLobbyCode = lobbyCode
+                    console.log("P2 Connected", activePlayers, pName, localPName);
+                    rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
 
-//                     const p1Turn = Math.random() < 0.5;
+                    const p1Turn = Math.random() < 0.5;
 
-//                     const p1Position = Math.floor(Math.random()*6);
-//                     const p2Position = Math.floor(Math.random()*6);
+                    const p1Position = Math.floor(Math.random()*6);
+                    const p2Position = Math.floor(Math.random()*6);
 
-//                     rooms[lobbyCode][0].hasTurn = p1Turn;
-//                     rooms[lobbyCode][1].hasTurn = !p1Data;
+                    rooms[lobbyCode][0].hasTurn = p1Turn;
+                    rooms[lobbyCode][1].hasTurn = !p1Data;
 
-//                     rooms[lobbyCode][0].position = {
-//                         i: Math.floor(p1Position/2),
-//                         j: p1Position%2
-//                     };
-//                     rooms[lobbyCode][1].position = {
-//                         i: Math.floor(p2Position/2),
-//                         j: p2Position%2 
-//                     };
+                    rooms[lobbyCode][0].position = {
+                        i: Math.floor(p1Position/2),
+                        j: p1Position%2
+                    };
+                    rooms[lobbyCode][1].position = {
+                        i: Math.floor(p2Position/2),
+                        j: p2Position%2 
+                    };
 
-//                     rooms[lobbyCode][0].socket.emit(p2Details, {p2: pName, p1Data, p2Data: rooms[lobbyCode][0].p1Data, yourTurn: p1Turn, position: {
-//                         i: Math.floor(p1Position/2),
-//                         j: p1Position%2
-//                     }})
-//                     socket.emit(p2Details, {p2: rooms[lobbyCode][0].name, p1Data: rooms[lobbyCode][0].p1Data, p2Data: p1Data, yourTurn: !p1Turn, position: {
-//                         i: Math.floor(p2Position/2),
-//                         j: p2Position%2 
-//                     }})
-//                 }
+                    rooms[lobbyCode][0].socket.emit(p2Details, {p2: pName, p1Data, p2Data: rooms[lobbyCode][0].p1Data, yourTurn: p1Turn, position: {
+                        i: Math.floor(p1Position/2),
+                        j: p1Position%2
+                    }})
+                    socket.emit(p2Details, {p2: rooms[lobbyCode][0].name, p1Data: rooms[lobbyCode][0].p1Data, p2Data: p1Data, yourTurn: !p1Turn, position: {
+                        i: Math.floor(p2Position/2),
+                        j: p2Position%2 
+                    }})
+                }
                 
-//             } else if (mode == 'c') {
-//                 if(!rooms.hasOwnProperty(lobbyCode)
-//                 && !openRooms.includes(lobbyCode)) {
-//                     rooms[lobbyCode] = [];
-//                     rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
-//                     socket.join(lobbyCode);
-//                     activePlayers[pEmail] = lobbyCode;
-//                     localLobbyCode = lobbyCode;
+            } else if (mode == 'c') {
+                if(!rooms.hasOwnProperty(lobbyCode)
+                && !openRooms.includes(lobbyCode)) {
+                    rooms[lobbyCode] = [];
+                    rooms[lobbyCode].push({socket: socket, name: pName, email:pEmail, p1Data, buildCount: 0});
+                    socket.join(lobbyCode);
+                    activePlayers[pEmail] = lobbyCode;
+                    localLobbyCode = lobbyCode;
             
 
-//                 }
-//             }
+                }
+            }
             
-//             localLobbyCode = lobbyCode;
+            localLobbyCode = lobbyCode;
             
-//             socket.on("disconnect", ()=> {
-//                 io.to(localLobbyCode).emit(emitName.p2Disconnected);
-//                 if (openRooms.includes(localLobbyCode))
-//                     openRooms.splice(openRooms.indexOf(localLobbyCode, 1));
-//                 if (activePlayers.hasOwnProperty(localPEmail))
-//                     delete activePlayers[localPEmail];
-//                 if (rooms.hasOwnProperty(localLobbyCode)){
-//                     delete rooms[localLobbyCode];
-//                 }
-//                 console.log("Disconnected", activePlayers, localPName, "localLobbyCode : ", localLobbyCode);
-//             } )
+            socket.on("disconnect", ()=> {
+                io.to(localLobbyCode).emit(emitName.p2Disconnected);
+                if (openRooms.includes(localLobbyCode))
+                    openRooms.splice(openRooms.indexOf(localLobbyCode, 1));
+                if (activePlayers.hasOwnProperty(localPEmail))
+                    delete activePlayers[localPEmail];
+                if (rooms.hasOwnProperty(localLobbyCode)){
+                    delete rooms[localLobbyCode];
+                }
+                console.log("Disconnected", activePlayers, localPName, "localLobbyCode : ", localLobbyCode);
+            } )
 
-//             socket.on(emitName.go, (mode, activeCells, newPlayerLocation, oldPlayerLocation)=> {
-//                 const data = rooms[localLobbyCode].find( obj => obj.socket == socket );
-//                 const p2I = rooms[localLobbyCode].indexOf(data) == 0 ? 1 : 0;
-//                 const p2Data = rooms[localLobbyCode][p2I];
-//                 let attackSqare = null;
-//                 let gameEnded = 0;
+            socket.on(emitName.go, (mode, activeCells, newPlayerLocation, oldPlayerLocation)=> {
+                const data = rooms[localLobbyCode].find( obj => obj.socket == socket );
+                const p2I = rooms[localLobbyCode].indexOf(data) == 0 ? 1 : 0;
+                const p2Data = rooms[localLobbyCode][p2I];
+                let attackSqare = null;
+                let gameEnded = 0;
 
-//                 if (mode == "build"){
-//                     data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj.push([activeCells[1].i, activeCells[1].j])
-//                     data.p1Data[activeCells[1].i*2 + activeCells[1].j].adj.push([activeCells[0].i, activeCells[0].j])
-//                     data.buildCount++;
-//                 } else if (mode == "attack") {
-//                     data.buildCount = 0;
-//                     data.position = {
-//                         ...newPlayerLocation
-//                     }
+                if (mode == "build"){
+                    data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj.push([activeCells[1].i, activeCells[1].j])
+                    data.p1Data[activeCells[1].i*2 + activeCells[1].j].adj.push([activeCells[0].i, activeCells[0].j])
+                    data.buildCount++;
+                } else if (mode == "attack") {
+                    data.buildCount = 0;
+                    data.position = {
+                        ...newPlayerLocation
+                    }
                     
-//                     attackSqare = activeCells[0].i*2 + activeCells[0].j;
-//                     if (attackSqare == p2Data.position.i*2 + p2Data.position.j) gameEnded = 1;
-//                     p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].destroyed = true;
-//                     p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj.forEach(cell => {
-//                         p2Data.p1Data[cell[0]*2 + cell[1]].adj.forEach((con, idx) => {
-//                             if (con[0] == activeCells[0].i && con[1] == activeCells[0].j )
-//                             p2Data.p1Data[cell[0]*2 + cell[1]].adj.splice(idx, 1);
-//                         })
-//                     })
+                    attackSqare = activeCells[0].i*2 + activeCells[0].j;
+                    if (attackSqare == p2Data.position.i*2 + p2Data.position.j) gameEnded = 1;
+                    p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].destroyed = true;
+                    p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj.forEach(cell => {
+                        p2Data.p1Data[cell[0]*2 + cell[1]].adj.forEach((con, idx) => {
+                            if (con[0] == activeCells[0].i && con[1] == activeCells[0].j )
+                            p2Data.p1Data[cell[0]*2 + cell[1]].adj.splice(idx, 1);
+                        })
+                    })
 
-//                     p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj = [];
-//                     p2Data.socket.emit(emitName.updateP2, oldPlayerLocation);
-//                 }
+                    p2Data.p1Data[activeCells[0].i*2 + activeCells[0].j].adj = [];
+                    p2Data.socket.emit(emitName.updateP2, oldPlayerLocation);
+                }
 
-//                 data.hasTurn = false;
-//                 p2Data.hasTurn = true;
+                data.hasTurn = false;
+                p2Data.hasTurn = true;
 
-//                 socket.emit(emitName.upDateState, data.p1Data, p2Data.p1Data, data.hasTurn, [attackSqare, 0], data.buildCount >= 3, [gameEnded, 1]);
-//                 socket.to(localLobbyCode).emit(emitName.upDateState, p2Data.p1Data , data.p1Data, p2Data.hasTurn, [attackSqare, 1], p2Data.buildCount >= 3, [gameEnded, 0]);
+                socket.emit(emitName.upDateState, data.p1Data, p2Data.p1Data, data.hasTurn, [attackSqare, 0], data.buildCount >= 3, [gameEnded, 1]);
+                socket.to(localLobbyCode).emit(emitName.upDateState, p2Data.p1Data , data.p1Data, p2Data.hasTurn, [attackSqare, 1], p2Data.buildCount >= 3, [gameEnded, 0]);
 
-//                 if (gameEnded) {
-//                     if (openRooms.includes(localLobbyCode))
-//                         openRooms.splice(openRooms.indexOf(localLobbyCode, 1));
-//                     if (activePlayers.hasOwnProperty(localPEmail))
-//                         delete activePlayers[localPEmail];
-//                     if (rooms.hasOwnProperty(localLobbyCode)){
-//                         delete rooms[localLobbyCode];
-//                     }
+                if (gameEnded) {
+                    if (openRooms.includes(localLobbyCode))
+                        openRooms.splice(openRooms.indexOf(localLobbyCode, 1));
+                    if (activePlayers.hasOwnProperty(localPEmail))
+                        delete activePlayers[localPEmail];
+                    if (rooms.hasOwnProperty(localLobbyCode)){
+                        delete rooms[localLobbyCode];
+                    }
 
-//                     (async () => {
-//                         await User.updateOne(
-//                             {email: localPEmail},
-//                             {
-//                                 $inc: {
-//                                     wins: 1,
-//                                     points: 10,
-//                                 }
-//                             })
-//                     })()
+                    (async () => {
+                        await User.updateOne(
+                            {email: localPEmail},
+                            {
+                                $inc: {
+                                    wins: 1,
+                                    points: 10,
+                                }
+                            })
+                    })()
 
-//                 }
-//                 console.log("Disconnected", activePlayers, localPName, "localLobbyCode : ", localLobbyCode);
+                }
+                console.log("Disconnected", activePlayers, localPName, "localLobbyCode : ", localLobbyCode);
 
-//             })
-//         }
-//     })
+            })
+        }
+    })
 
 
-// })
+})
 
 
 // Listen to server
